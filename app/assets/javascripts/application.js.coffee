@@ -1,5 +1,5 @@
-#= require URIjs/src/URI
-#= require URIjs/src/URITemplate.js
+#= require uri.js/src/URI
+#= require uri.js/src/URITemplate.js
 #= require moment/moment
 #= require inflection/lib/inflection
 #= require jquery/jquery

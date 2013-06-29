@@ -1,0 +1,29 @@
+<% @initEpgTable() %>
+
+<thead>
+  <tr>
+    <th class="time"></th>
+  <% @channels.each (channel) =>: %>
+    <th><a href="<%= @path('channels','show',{id: channel.id}) %>"><%= channel.get('name') %></a></th>
+  <% end %>
+  </tr>
+</thead>
+
+<tbody>
+<% @_timeRange.each (timeValue) =>: %>
+  <tr>
+  <% if timeValue % 60 == 0: %>
+    <th class="time" rowspan="60"><%= parseInt(timeValue/60) %></th>
+  <% end %>
+  
+  <% @channels.each (channel) =>: %>
+    <% cell = @getCellInfo(timeValue, channel) %>
+    <% if cell == 'empty': %>
+      <td class="empty"></td>
+    <% else if cell != 'reserved': %>
+      <td id="<%= cell.cid %>"></td>
+    <% end %>
+  <% end %>
+  </tr>
+<% end %>
+</tbody>

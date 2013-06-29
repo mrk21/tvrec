@@ -1,0 +1,10 @@
+<header class="page">
+  <h1><a href="<%= @path('root') %>">Tvrec</a></h1>
+  <nav id="page_nav_region"></nav>
+</header>
+
+<div class="page body" id="page_body_region"></div>
+
+<footer class="page">
+  <p class="copyright"><small>&copy; <%= moment().year() %> @mrk_21.</small></p>
+</footer>

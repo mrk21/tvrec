@@ -1,0 +1,116 @@
+//= require_self
+//= require_tree .
+
+@import "application_helper";
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+article.page {
+  header.page {
+    @include zurui-gradient-top-lighten($header-base-color);
+    @include zurui-line-top;
+    @include zurui-ts-000;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 10;
+    padding: 0 $page-base-w-padding;
+    line-height: $page-header-height - 1px;
+    vertical-align: middle;
+    
+    h1 {
+      @include inline-block;
+      font-size: 13px;
+      font-family: Verdana;
+      color: #fff;
+      margin: -2px 0 0;
+      padding: 0;
+    }
+    
+    nav {
+      @include inline-block;
+      
+      ul {
+        @include inline-block-list;
+        padding-left: 18px;
+        font-size: 12px;
+        white-space: nowrap;
+        
+        li {
+          white-space: normal;
+          padding-right: 10px;
+        }
+      }
+      
+      &.main {
+        a {
+          color: rgba(255,255,255,0.8);
+        }
+        a:hover {
+          color: rgba(255,255,255,0.9);
+        }
+      }
+      &.system {
+        position: absolute;
+        right: $page-base-w-padding;
+        top: 0;
+        
+        ul {
+          li {
+            padding-right: 0;
+            padding-left: 10px;
+          }
+        }
+      }
+    }
+    
+    a {
+      @include header-footer-link;
+    }
+  }
+  
+  .body.page {
+    @include zurui-line-top;
+    position: relative;
+    z-index: 5;
+    margin: $page-header-height + 1px 0 $page-footer-height + 1px;
+  }
+  
+  footer.page {
+    @include zurui-gradient-top-lighten($header-base-color);
+    @include zurui-line-top;
+    @include zurui-ts-000;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    line-height: $page-footer-height;
+    
+    p.copyright {
+      margin: 0;
+      padding: 0;
+      font-family: Verdana;
+      font-size: 12px;
+      text-align: center;
+      color: #ffffff;
+      a {
+        font-weight: bold;
+      }
+    }
+    
+    a {
+      @include header-footer-link;
+    }
+  }
+}
+
+@each $name in lineups,animes,channels {
+  body.#{$name} header.page nav.main li.#{$name} a {
+    color: rgba(255,255,255,1);
+  }
+}

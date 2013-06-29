@@ -1,0 +1,21 @@
+{
+  "name": "tvrec",
+  "version": "0.0.0",
+  "dependencies": {
+    "moment": "~2.0.0",
+    "inflection": "~1.2.6",
+    "jquery": "2.0.2",
+    "underscore": "~1.4.4",
+    "backbone": "~1.0.0",
+    "backbone-relational": "~0.8.5",
+    "backbone.wreqr": "~0.2.0",
+    "backbone.babysitter": "~0.0.6",
+    "backbone.marionette": "~1.0.3",
+    "backbone-validation": "~0.7.1",
+    "backbone-forms": "~0.12.0",
+    "URIjs": "~1.10.2",
+    "css_browser_selector": "latest",
+    "modernizr": "~2.6.2",
+    "normalize-css": "~2.1.2"
+  }
+}

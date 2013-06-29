@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tvrec</title>
+  <%= javascript_include_tag "preprocess" %>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div id="main_region"><%= yield %></div>
+  <div id="dialog_region"></div>
+  <%= javascript_include_tag "application" %>
+</body>
+</html>

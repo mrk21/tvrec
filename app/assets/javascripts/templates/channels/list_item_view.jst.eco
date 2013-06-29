@@ -1,0 +1,3 @@
+<p><%= @name %></p>
+<p><%= @logical_no %></p>
+<p><%= @physical_no %></p>

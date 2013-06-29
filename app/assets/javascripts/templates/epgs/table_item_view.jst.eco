@@ -1,0 +1,2 @@
+<p><%= @model.start_time().format('HH:mm') %></p>
+<p><%= @model.get('title') %></p>

@@ -1,0 +1,194 @@
+@import "compass";
+@import "zurui-sass";
+
+$header-base-color: #303030;
+$page-base-w-padding: 15px;
+$page-background: #fafafa;
+$page-base-color: #333333;
+$page-header-height: 33px;
+$page-footer-height: 30px;
+
+$link-list-background-color: #eeeeee;
+$link-list-active-background-color: #5393c5;
+$link-list-divider-background-color: #5393c5;
+
+@mixin header-footer-link($color: #ffffff) {
+  color: $color;
+  text-decoration: none;
+}
+
+@mixin detail-header($height) {
+  height: $height;
+  line-height: $height;
+  vertical-align: middle;
+  @include zurui-gradient-top-lighten($header-base-color);
+  @include zurui-line-top;
+  @include zurui-ts-000;
+  display: block;
+  color: #fff;
+  font-size: 14px;
+  
+  h2 {
+    @include inline-block;
+    margin: 0;
+    padding: 0 $page-base-w-padding;
+    font-size: 16px;
+  }
+  p {
+    @include inline-block;
+    padding: 0;
+    margin: 0;
+  }
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+@mixin option-nav($height) {
+  height: $height;
+  line-height: $height;
+  vertical-align: middle;
+  font-size: 14px;
+  
+  ul {
+    @include inline-block-list;
+    white-space: nowrap;
+    
+    li {
+      border-right: 1px solid darken($header-base-color, 10%);
+      text-align: center;
+      white-space: normal;
+      
+      &:last-child {
+        border-right-color: transparent;
+      }
+      
+      a {
+        @include zurui-gradient-top-lighten($header-base-color);
+        @include zurui-line-top;
+        @include zurui-ts-000;
+        display: block;
+        text-decoration: none;
+        color: #fff;
+        
+        &:hover {
+          @include zurui-gradient-top-lighten(lighten($header-base-color, 5%));
+        }
+      }
+      &.current a {
+        @include zurui-gradient-top-darken($link-list-active-background-color);
+      }
+    }
+  }
+}
+
+@mixin action-menu($height) {
+  @include inline-block-list;
+  height: $height;
+  line-height: $height;
+  vertical-align: middle;
+  font-size: 14px;
+  white-space: nowrap;
+  
+  li {
+    @include zurui-gradient-top-lighten($header-base-color);
+    @include zurui-line-top;
+    @include zurui-ts-000;
+    color: #fff;
+    border-right: 1px solid darken($header-base-color, 10%);
+    text-align: center;
+    white-space: normal;
+    cursor: pointer;
+    
+    &:last-child {
+      border-right-color: transparent;
+    }
+    
+    &:hover {
+      @include zurui-gradient-top-lighten(lighten($header-base-color, 5%));
+    }
+  }
+}
+
+@mixin link-list($height: 50px) {
+  margin: 0;
+  padding: 0;
+  
+  li {
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0;
+    height: $height;
+    line-height: $height;
+    
+    @include zurui-gradient-top-lighten($link-list-background-color);
+    @include zurui-line-top;
+    display: block;
+    margin: 0;
+    padding: 0 15px;
+    text-decoration: none;
+    color: $page-base-color;
+    text-shadow: 0 1px 0 rgba(255,255,255,1);
+    font-weight: bold;
+    height: $height;
+    line-height: $height;
+    
+    &:last-child {
+      @include zurui-line-bottom;
+    }
+    
+    p {
+      @include inline-block;
+      margin: 0;
+      padding: 0;
+    }
+    
+    a {
+      display: block;
+      margin: 0 -15px;
+      padding: 0 15px;
+      text-decoration: none;
+      color: $page-base-color;
+      height: $height;
+      p {
+        height: $height;
+        line-height: $height;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      &:hover {
+        @include zurui-gradient-top-lighten(darken($link-list-background-color, 10%));
+      }
+    }
+    &.current a, &.current a:hover {
+      @include zurui-gradient-top-darken($link-list-active-background-color);
+      @include text-shadow(0 1px 0 rgba(0,0,0,0.5));
+      color: #fff;
+    }
+    
+    &.divider {
+      @include zurui-ts-000;
+      height: $height/2;
+      line-height: $height/2;
+      background: $link-list-divider-background-color;
+      padding: 0 $page-base-w-padding;
+      color: #fff;
+      
+      a {
+        height: $height/2;
+        display: block;
+        margin: 0 (-$page-base-w-padding);
+        padding: 0 $page-base-w-padding;
+        text-decoration: none;
+        color: #fff;
+        
+        &:hover {
+          background: darken($link-list-divider-background-color, 5%);
+        }
+      }
+    }
+  }
+}

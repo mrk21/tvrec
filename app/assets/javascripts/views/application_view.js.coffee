@@ -10,7 +10,7 @@ $$.module 'View', (self) ->
     el: 'body'
     
     events:
-      'click a[href!=#]:not([data-fetch=false])': 'onPageChange'
+      'click a:not([href^=#]):not([data-fetch=false])': 'onPageChange'
     
     onPageChange: (event) =>
       return unless Backbone.History.started

@@ -5,7 +5,8 @@ $$.module 'Router', (self) ->
   class self.EpgsRouter extends self.ApplicationRouter
     routes:
       'epgs': 'index'
-      'epgs/:date': 'list'
+      'epgs/in/:date': 'list'
+      'epgs/:id/reservation': 'reservation'
     
     index: -> @list()
     

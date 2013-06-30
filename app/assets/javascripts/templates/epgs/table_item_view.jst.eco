@@ -1,2 +1,8 @@
-<p><%= @model.start_time().format('HH:mm') %></p>
+<p><%= @model.startTime().format('HH:mm') %></p>
 <p><%= @model.get('title') %></p>
+
+<% if @model.canReserve(): %>
+  <button data-method="create" type="button">予約</button>
+<% else if @model.canUnreserve(): %>
+  <button data-method="delete" type="button">解除</button>
+<% end %>

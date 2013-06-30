@@ -21,8 +21,9 @@ class Epg < ActiveRecord::Base
   
   scope :order_by_time, -> { order [:start_time, :channel_id] }
   
-  def program
-    return self.video unless self.video.nil?
+  def reserve
+    return false unless self.video.nil?
+    return false if Time.zone.now >= self.stop_time
     video = Video.create(
       channel: self.channel,
       title: self.title,
@@ -31,6 +32,15 @@ class Epg < ActiveRecord::Base
       stop_time: self.stop_time
     )
     self.update_attributes(video_id: video.id)
-    video
+    true
+  end
+  
+  def unreserve
+    return false if self.video.nil?
+    return false unless self.video.status == Video::STATUS_RESERVED
+    return false if Time.zone.now >= self.start_time
+    self.video.destroy
+    self.update_attributes(video_id: nil)
+    true
   end
 end

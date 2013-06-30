@@ -1,22 +1,39 @@
+#= require ./video_model
+
 $$.module 'Model', (self) ->
+  class ReservationModel extends Backbone.RelationalModel
+    url: -> $$.Router.path('epgs','reservation', id: @id).suffix('json')
+    
+    create: ->
+      @isNew = -> true
+      @save()
+    
+    destroy: ->
+      @isNew = -> false
+      super()
+  
   class self.EpgModel extends Backbone.RelationalModel
     @today: -> moment().subtract(4,'hours')
+    @format_date: (date) -> moment(date || @today()).format('YYYY-MM-DD')
     
-    @format_date: (date) ->
-      date ||= @today()
-      moment(date).format('YYYY-MM-DD')
-    
-    start_time: -> moment @get('start_time')
-    stop_time: -> moment @get('stop_time')
-    
-    airtime: ->
-      (@stop_time() - @start_time()) / 60 / 1000
+    initialize: -> @reservation = new ReservationModel(id: @id)
+    startTime: -> moment @get('start_time')
+    stopTime: -> moment @get('stop_time')
+    airtime: -> (@stopTime() - @startTime()) / 60 / 1000
     
     timeValue: ->
-      t = @start_time()
+      t = @startTime()
       hour = t.hour()
       hour += 24 if hour < 4
       hour*60 + t.minutes()
+    
+    reserve: -> @reservation.create().done (d) => @set(d)
+    unreserve: -> @reservation.destroy().done (d) => @set(d)
+    
+    isBroadcast: -> moment().isAfter(@startTime()) && moment().isBefore(@stopTime())
+    isReserved: -> _.isNumber(@get('video_id'))
+    canReserve: -> !@isReserved() && moment().isBefore(@stopTime())
+    canUnreserve: -> @isReserved() && moment().isBefore(@startTime())
   
   class self.EpgCollection extends Backbone.Collection
     model: self.EpgModel

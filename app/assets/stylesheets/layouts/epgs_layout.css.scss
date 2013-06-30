@@ -123,6 +123,14 @@ table.epgs {
         padding: 0;
         height: 0;
       }
+      &.epgs {
+        &.reserved {
+          @include zurui-gradient-top-lighten(#fafacc);
+          &.broadcast {
+            @include zurui-gradient-top-lighten(#facccc);
+          }
+        }
+      }
     }
     
     tr:first-child td {

@@ -1,0 +1,2 @@
+module Epgs::ReservationsHelper
+end

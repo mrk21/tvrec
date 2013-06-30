@@ -1,5 +1,5 @@
 class Video < ActiveRecord::Base
-  STATUS_PROGRAMED  = 0
+  STATUS_RESERVED = 0
   STATUS_RECORDING = 1
   STATUS_RECORDED = 2
   
@@ -10,7 +10,7 @@ class Video < ActiveRecord::Base
   def self.record(id)
     video = self.find(id)
     return nil if video.nil?
-    return nil unless video.status == STATUS_PROGRAMED
+    return nil unless video.status == STATUS_RESERVED
     video.update_attributes(status: Video::STATUS_RECORDING, job_id: nil)
     
     ch = video.channel.physical_no

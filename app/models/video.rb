@@ -1,3 +1,5 @@
+require 'nkf'
+
 class Video < ActiveRecord::Base
   STATUS_RESERVED = 0
   STATUS_RECORDING = 1
@@ -15,7 +17,7 @@ class Video < ActiveRecord::Base
     
     ch = video.channel.physical_no
     sec = (video.stop_time - video.start_time).to_i
-    title = video.title
+    path = video.filepath
     
     if video.stop_time <= Time.zone.now then
       return nil
@@ -26,9 +28,15 @@ class Video < ActiveRecord::Base
       sleep 1 while Time.zone.now < start_time
     end
     
-    filepath, status, responce = Tuner::Recorder.record(ch,sec,title)
+    filepath, status, responce = Tuner::Recorder.record(ch,sec,path)
     video.update_attributes(status: Video::STATUS_RECORDED, path: filepath)
     [filepath, status, responce]
+  end
+  
+  def filepath(subpath=nil)
+    path = FileManager.to_filename(self.title)
+    date = (self.start_time - 4.hours).strftime('%Y-%m-%d')
+    File.join(date, "#{path}#{subpath}")
   end
   
   def job

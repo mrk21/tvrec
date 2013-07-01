@@ -19,4 +19,5 @@
 ._*
 Gemfile.lock
 /vendor/assets/bower
+.DS_Store
 

@@ -29,7 +29,7 @@ class JobQue
   
   def self.push(datetime, code)
     code = Shellwords.escape code
-    shell = "#{Rails.root}/bin/rails r #{code} &>> #{Rails.root}/log/job_que.log"
+    shell = "#{Rails.root}/bin/rails runner -e #{Rails.env} #{code} &>> #{Rails.root}/log/job_que.log"
     if datetime <= Time.zone.now then
       spawn shell
       return -1

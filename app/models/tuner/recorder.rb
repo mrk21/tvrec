@@ -15,11 +15,12 @@ class Tuner::Recorder
     tmpfile = Tuner.tmpfile(channel,:ts)
     level = nil
     count = RETRY_RECORD_COUNT
-    while (count -= 1) > 0 do
+    while count > 0 do
       responce = `recpt1 --b25 #{channel} #{sec} #{tmpfile} 2>&1`
       status = $?
       if status.to_i == 256 then
         sleep 1
+        count -= 1
         next
       end
       matches = responce.match(/^.*C\/N = (.+)dB.*$/m)
@@ -30,7 +31,7 @@ class Tuner::Recorder
       end
       break
     end
-    [tmpfile, level]
+    [tmpfile, level || 0]
   end
   
   def self.record(channel, sec, path=nil)

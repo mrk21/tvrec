@@ -13,21 +13,24 @@ class Tuner::EpgDumper
       nil unless status.to_i == 0
       xmlfile = Tuner.tmpfile(@channel,:xml)
       system "epgdump #{@channel} #{tsfile} #{xmlfile}"
-      redo unless File.exists? xmlfile
+      redo unless File.size? xmlfile
       break
     end
     self.read
   end
   
   def read
+    xmlfile = Tuner.tmpfile(@channel,:xml)
+    return false unless File.size? xmlfile
+    tvxml = REXML::Document.new File.read(xmlfile)
+    return false if tvxml.root.nil?
+    
     xml_to_hash = lambda do |elem|
       attrs = elem.attributes.map{|v| [v[0].gsub('-','_').intern, v[1]]}
       elems = elem.elements.map{|v| [v.name.gsub('-','_').intern, v.text]}
       Hash[*[attrs, elems].flatten]
     end
     
-    xmlfile = Tuner.tmpfile(@channel,:xml)
-    tvxml = REXML::Document.new File.read(xmlfile)
     @data = {
       channel: xml_to_hash[tvxml.root.get_elements('channel')[0]],
       programmes: tvxml.root.get_elements('programme').map(&xml_to_hash)

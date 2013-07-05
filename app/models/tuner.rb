@@ -30,7 +30,11 @@ class Tuner
     Channel.all.each do |ch|
       puts "# channel #{ch.physical_no}..."
       epg_dumper = EpgDumper.new(ch.physical_no)
-      epg_dumper.dump
+      unless epg_dumper.dump then
+        p 'faild!!'
+        Rails.logger.error "update_epg(): Channel #{ch.physical_no} is failed!!"
+        next
+      end
       epg_dumper.store
     end
   end

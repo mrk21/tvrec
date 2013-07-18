@@ -9,8 +9,7 @@ class Tuner::EpgDumper
   
   def dump(sec = 60)
     loop do
-      tsfile, level, status = Tuner::Recorder.test_record(@channel, sec)
-      nil unless status.to_i == 0
+      tsfile, level = Tuner::Recorder.test_record(@channel, sec)
       xmlfile = Tuner.tmpfile(@channel,:xml)
       system "epgdump #{@channel} #{tsfile} #{xmlfile}"
       redo unless File.size? xmlfile

@@ -1,0 +1,52 @@
+#!/bin/bash
+
+SELF=$0
+ROOT=$(cd $(dirname ${SELF})/..; pwd)
+
+function output() {
+  echo "$*" >&2
+}
+
+function record() {
+  local channel=${1:?Not specified a channel!}
+  local sec=${2:--}
+  local ts_path=${3:-/dev/null}
+  local log_path=${4:-/dev/stderr}
+  
+  if [ ${log_path} = '/dev/stdout' ] || [ ${log_path} = '/dev/stdin' ]; then
+    output "Invalid log path!"
+    return 1
+  fi
+  
+  output "$ /usr/bin/env recpt1 --b25 --strip --sid hd ${channel} ${sec} - 2>> ${log_path} | ${ROOT}/bin/tssplitter - ${ts_path} -f 2>> ${log_path}"
+  /usr/bin/env recpt1 --b25 --strip --sid hd ${channel} ${sec} - 2>> ${log_path} | ${ROOT}/bin/tssplitter - ${ts_path} -f 2>> ${log_path}
+  
+  return $((${PIPESTATUS[0]} << 2*1 | ${PIPESTATUS[1]} << 2*2))
+}
+
+function usage() {
+  output
+  output "[Usage]"
+  output "$(basename ${SELF}) channel [sec [ts_path [log_path]]]"
+  output 
+  
+  output "[Remarks]"
+  output "if sec     is '-', records indefinitely."
+  output "if ts_path is '-', stdout is used for output."
+  output 
+  
+  output "[Options]"
+  output "channel      Physical cahnnel."
+  output "sec          Record seconds. [default: -]"
+  output "ts_path      Output ts file path. [default: /dev/null]"
+  output "log_path     Output log file path. [default: /dev/stderr] ('/dev/stdin' and '/dev/stdout' is invalid!)"
+}
+
+function main() {
+  (record $*)
+  local status=$?
+  [ ${status} = 1 ] && usage
+  return ${status}
+}
+
+main $*

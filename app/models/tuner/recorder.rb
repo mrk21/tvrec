@@ -1,3 +1,5 @@
+require 'tempfile'
+
 class Tuner::Recorder
   if Rails.env == 'production' then
     REC_BASEDIR = '/media/video/ts'
@@ -15,15 +17,8 @@ class Tuner::Recorder
     tmpfile = Tuner.tmpfile(channel,:ts)
     level = nil
     count = RETRY_RECORD_COUNT
-    status = nil
-    while count > 0 do
+    loop do
       responce = `recpt1 --b25 #{channel} #{sec} #{tmpfile} 2>&1`
-      status = $?
-      if status.to_i == 256 then
-        sleep 1
-        count -= 1
-        next
-      end
       matches = responce.match(/^.*C\/N = (.+)dB.*$/m)
       level = case
         when matches.nil? then 0
@@ -32,7 +27,7 @@ class Tuner::Recorder
       end
       break
     end
-    [tmpfile, level || 0, status]
+    [tmpfile, level || 0]
   end
   
   def self.record(channel, sec, path=nil)
@@ -48,10 +43,15 @@ class Tuner::Recorder
     count = RETRY_RECORD_COUNT
     result = []
     while (count -= 1) > 0 do
-      responce = `recpt1 --b25 --strip --sid hd #{channel} #{sec} #{path} 2>&1`
-      result = [path, $?, responce]
-      return result unless result[1].to_i == 256
-      sec -= 1 if sec > 0
+      tempfile = Tempfile.new('tvrec-tuner-recorder-record')
+      `#{Rails.root}/bin/record #{channel} #{sec} #{path} #{tempfile.path} 2>&1`
+      status = $?
+      responce = tempfile.read
+      tempfile.close
+      tempfile.unlink
+      result = [path, status, responce]
+      return result if status.exitstatus == 0
+      sec -= 1 if sec > 1
       sleep 1
     end
     result

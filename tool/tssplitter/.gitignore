@@ -1,0 +1,8 @@
+*.o
+*.d
+*.out
+/tmp/*
+!/tmp/.keep
+/bin/*
+!/bin/.keep
+

@@ -22,3 +22,6 @@ Gemfile.lock
 .DS_Store
 /public/assets
 
+# Ignore generated bin file
+/bin/tssplitter
+

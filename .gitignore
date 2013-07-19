@@ -22,6 +22,8 @@ Gemfile.lock
 .DS_Store
 /public/assets
 
-# Ignore generated bin file
+# Ignore generated files
 /bin/tssplitter
+/config/deployments/basic_auth
+/config/deployments/ssl.*
 

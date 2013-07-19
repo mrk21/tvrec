@@ -3,6 +3,8 @@
 
 <% if @model.canReserve(): %>
   <button data-method="create" type="button">予約</button>
+  <p><lavel>開始オフセット</lavel><input name="start_offset" type="text" value="0" size="3">分</p>
+  <p><lavel>終了オフセット</lavel><input name="stop_offset" type="text" value="0" size="3">分</p>
 <% else if @model.canUnreserve(): %>
   <button data-method="delete" type="button">解除</button>
 <% end %>

@@ -7,6 +7,10 @@ function output() {
   echo "$*" >&2
 }
 
+function output_with_datetime() {
+  date "+[%Y-%m-%d %H:%M:%S] $*" >&2
+}
+
 function record() {
   local channel=${1:?Not specified a channel!}
   local sec=${2:--}
@@ -18,7 +22,7 @@ function record() {
     return 1
   fi
   
-  output "$ /usr/bin/env recpt1 --b25 --strip --sid hd \"${channel}\" \"${sec}\" - 2>> \"${log_path}\" | ${ROOT}/bin/tssplitter - \"${ts_path}\" -f 2>> \"${log_path}\""
+  output_with_datetime "$ /usr/bin/env recpt1 --b25 --strip --sid hd \"${channel}\" \"${sec}\" - 2>> \"${log_path}\" | ${ROOT}/bin/tssplitter - \"${ts_path}\" -f 2>> \"${log_path}\"" 2>> "${log_path}"
   /usr/bin/env recpt1 --b25 --strip --sid hd "${channel}" "${sec}" - 2>> "${log_path}" | ${ROOT}/bin/tssplitter - "${ts_path}" -f 2>> "${log_path}"
   
   return $((${PIPESTATUS[0]} << 2*1 | ${PIPESTATUS[1]} << 2*2))

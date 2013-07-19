@@ -27,8 +27,12 @@ $$.module 'Model', (self) ->
       hour += 24 if hour < 4
       hour*60 + t.minutes()
     
-    reserve: -> @reservation.create().done (d) => @set(d)
-    unreserve: -> @reservation.destroy().done (d) => @set(d)
+    reserve: (start_offset=0, stop_offset=0) ->
+      @reservation.set(start_offset: start_offset, stop_offset: stop_offset)
+      @reservation.create().done (d) => @set(d)
+    
+    unreserve: ->
+      @reservation.destroy().done (d) => @set(d)
     
     isBroadcast: -> moment().isAfter(@startTime()) && moment().isBefore(@stopTime())
     isReserved: -> _.isNumber(@get('video_id'))

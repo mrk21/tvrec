@@ -2,7 +2,7 @@ class Epgs::ReservationsController < ApplicationController
   before_filter :fetch
   
   def create
-    @status = 405 unless @epg.reserve
+    @status = 405 unless @epg.reserve(params[:start_offset].to_i, params[:stop_offset].to_i)
     self.render_content
   end
   

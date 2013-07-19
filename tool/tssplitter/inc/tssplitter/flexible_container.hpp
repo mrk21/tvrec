@@ -63,10 +63,10 @@ namespace tssplitter {
     using       iterator = iterator_type<      byteptr,       pointer,       reference>;
     using const_iterator = iterator_type<const_byteptr, const_pointer, const_reference>;
     
-          iterator begin(void)       { return iterator(this->derived()->base_address(), this->derived()->length()); }
-    const_iterator begin(void) const { return iterator(this->derived()->base_address(), this->derived()->length()); }
+          iterator begin(void)       { return       iterator(this->derived()->base_address(), this->derived()->length()); }
+    const_iterator begin(void) const { return const_iterator(this->derived()->base_address(), this->derived()->length()); }
     
-          iterator end(void)       { return iterator(this->derived()->base_address()); }
-    const_iterator end(void) const { return iterator(this->derived()->base_address()); }
+          iterator end(void)       { return       iterator(this->derived()->base_address()); }
+    const_iterator end(void) const { return const_iterator(this->derived()->base_address()); }
   };
 }

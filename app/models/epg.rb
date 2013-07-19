@@ -32,15 +32,15 @@ class Epg < ActiveRecord::Base
     date_or_time.to_date + TIME_OFFSET
   end
   
-  def reserve
+  def reserve(start_offset=0, stop_offset=0)
     return false unless self.video.nil?
     return false if Time.zone.now >= self.stop_time
     video = Video.create(
       channel: self.channel,
       title: self.title,
       description: self.description,
-      start_time: self.start_time,
-      stop_time: self.stop_time
+      start_time: self.start_time + start_offset.minutes,
+      stop_time: self.stop_time + stop_offset.minutes
     )
     self.update_attributes(video_id: video.id)
     true

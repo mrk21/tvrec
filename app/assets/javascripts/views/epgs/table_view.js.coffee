@@ -22,8 +22,12 @@ $$.module 'View.Epgs', (self) ->
     
     onButtonClick: (event) =>
       switch $(event.target).data('method')
-        when 'create' then @model.reserve()
-        when 'delete' then @model.unreserve()
+        when 'create'
+          start_offset = +@$("[name='start_offset']").val()
+          stop_offset = +@$("[name='stop_offset']").val()
+          @model.reserve(start_offset, stop_offset)
+        when 'delete'
+          @model.unreserve()
   
   class self.TableView extends Backbone.Marionette.CompositeView
     template: JST['templates/epgs/table_view']

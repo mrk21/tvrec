@@ -91,9 +91,7 @@
   </settings>
   <editor content-size="{1012, 453}" status-visible="no" is-spellchecking-enabled="yes">
     <drawer palette-height="167"/>
-    <selected-rows ids="f6q-vr4JA2_"/>
-    <selected-columns ids="jFqHUGd_Dg1"/>
-    <selected-characters range="{4, 0}"/>
+    <selected-rows ids="eAIFXvZp8SN"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -447,32 +445,6 @@
             <enum idref="lQ1rbq8DV6M">date</enum>
             <null/>
             <checkbox>checked</checkbox>
-            <null/>
-            <null/>
-          </values>
-        </item>
-        <item id="ndc5drGx1wY">
-          <style>
-            <value key="item-handle-mode(com.omnigroup.OmniOutliner)">never</value>
-          </style>
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>パス</lit>
-                </run>
-              </p>
-            </text>
-            <text>
-              <p>
-                <run>
-                  <lit>path</lit>
-                </run>
-              </p>
-            </text>
-            <enum idref="eTkNDD7XO3E">string</enum>
-            <null/>
-            <checkbox>unchecked</checkbox>
             <null/>
             <null/>
           </values>

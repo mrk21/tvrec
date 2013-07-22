@@ -29,13 +29,13 @@ class Video < ActiveRecord::Base
     end
     
     filepath, status, responce = Tuner::Recorder.record(ch,sec,path)
-    video.update_attributes(status: Video::STATUS_RECORDED, path: filepath)
+    video.update_attributes(status: Video::STATUS_RECORDED)
     [filepath, status, responce]
   end
   
   def filepath(subpath=nil)
     path = FileManager.to_filename(self.title)
-    date = (self.start_time - 4.hours).strftime('%Y-%m-%d')
+    date = (self.start_time - 4.hours).strftime('%Y/%m/%d')
     File.join(date, "#{path}#{subpath}")
   end
   

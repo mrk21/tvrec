@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130603070614) do
+ActiveRecord::Schema.define(version: 20130722005209) do
 
   create_table "channels", force: true do |t|
     t.string  "name"
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(version: 20130603070614) do
     t.integer  "channel_id"
     t.datetime "start_time"
     t.datetime "stop_time"
-    t.string   "path"
     t.integer  "status",      default: 0
     t.integer  "job_id"
   end

@@ -1,0 +1,17 @@
+---
+pt3_url: https://github.com/m-tsudo/pt3
+pt3_path: "{{ BUILD_DIR }}/pt3"
+pt3_build_dir: "{{ pt3_path }}"
+
+b25_url: http://hg.honeyplanet.jp/pt1/archive/c44e16dbb0e2.zip
+b25_path: "{{ BUILD_DIR }}/b25"
+b25_build_dir: "{{ b25_path }}/pt1-c44e16dbb0e2/arib25"
+
+recpt1_url: http://hg.honeyplanet.jp/pt1
+recpt1_path: "{{ BUILD_DIR }}/recpt1"
+recpt1_build_dir: "{{ recpt1_path }}/recpt1"
+
+epgdump_url: http://sourceforge.jp/frs/redir.php?m=iij&f=%2Fepgrec%2F53385%2Fepgdumpr2_20111001.tar.gz
+epgdump_path: "{{ BUILD_DIR }}/epgdumpr2"
+epgdump_build_dir: "{{ epgdump_path }}"
+epgdump_install_dir: /usr/local/bin

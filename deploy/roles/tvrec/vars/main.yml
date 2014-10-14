@@ -1,0 +1,17 @@
+---
+user: tvrec
+group: www-data
+home: /home/{{ user }}
+
+cspec_url: git://github.com/arnaudbrejeon/cspec
+cspec_path: "{{ BUILD_DIR }}/cspec"
+cspec_inc_install_path: /usr/local/include/cspec
+
+bower_version: 0.9.2
+bundler_version: 1.6.4
+
+repo_url: ssh://git/repos/tvrec.git
+repo_path: "{{ home }}/tvrec"
+init_d_name: tvrec
+init_d_dir: /etc/init.d
+nginx_conf: /etc/nginx/conf.d/tvrec.conf

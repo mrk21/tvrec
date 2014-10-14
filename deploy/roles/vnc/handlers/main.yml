@@ -1,0 +1,8 @@
+---
+- name: x11vnc | enable
+  sudo: yes
+  service: name={{ service_name }} enabled=yes
+  
+- name: x11vnc | restart
+  sudo: yes
+  shell: service {{ service_name }} restart

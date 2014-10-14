@@ -1,0 +1,17 @@
+---
+- name: b_cas | install packages
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - libccid
+    - pcsc-tools
+    - pcscd
+  
+- name: b_cas | check
+  register: pcsc
+  changed_when: False
+  failed_when: pcsc.stdout.find('B-CAS') == -1
+  shell: |
+    pcsc_scan &
+    sleep 1
+    kill $!

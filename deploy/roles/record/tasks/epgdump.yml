@@ -1,0 +1,21 @@
+---
+- name: epgdump | download
+  register: source
+  shell: |
+    chdir={{ BUILD_DIR }}
+    creates={{ epgdump_path }}
+    wget '{{ epgdump_url }}' -O {{ epgdump_path }}.tar.gz
+    tar xvf {{ epgdump_path }}.tar.gz
+  
+- name: epgdump | build
+  register: build
+  when: source.changed
+  shell: |
+    chdir={{ epgdump_build_dir }}
+    make clean all
+  
+- name: epgdump | install
+  sudo: yes
+  when: build.changed
+  shell: |
+    cp {{ epgdump_build_dir }}/epgdump {{ epgdump_install_dir }}

@@ -1,0 +1,3 @@
+---
+- name: working | create build directory
+  file: state=directory path={{ BUILD_DIR }}

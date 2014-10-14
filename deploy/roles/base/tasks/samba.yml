@@ -1,0 +1,12 @@
+---
+- name: samba | install
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - samba
+  
+- name: samba | copy config
+  sudo: yes
+  template: src=smb.conf dest={{ samba_conf }}
+  notify:
+    - samba | reload

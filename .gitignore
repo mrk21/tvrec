@@ -18,6 +18,7 @@
 # Ignore others.
 ._*
 Gemfile.lock
+/vendor/bundle
 /vendor/assets/bower
 .DS_Store
 /public/assets
@@ -26,4 +27,3 @@ Gemfile.lock
 /bin/tssplitter
 /config/deployments/basic_auth
 /config/deployments/ssl.*
-

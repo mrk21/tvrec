@@ -1,0 +1,12 @@
+---
+- name: install
+  sudo: yes
+  apt: name=x11vnc state=present
+  notify:
+    - x11vnc | enable
+  
+- name: copy config
+  sudo: yes
+  template: src=x11vnc.conf dest={{ config }}
+  notify:
+    - x11vnc | restart

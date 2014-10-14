@@ -1,0 +1,56 @@
+---
+- name: home | create .ssh
+  sudo: yes
+  sudo_user: "{{ user }}"
+  file: |
+    state=directory
+    path={{ home }}/.ssh
+    mode=700
+  
+- name: home | copy ssh files
+  sudo: yes
+  sudo_user: "{{ user }}"
+  copy: |
+    src=config/ssh/{{ item.name }}
+    dest={{ home }}/.ssh/{{ item.name }}
+    mode={{ item.mode }}
+    
+  with_items:
+    - {name: config, mode: 644}
+    - {name: authorized_keys, mode: 600}
+    - {name: id_rsa, mode: 600}
+    - {name: known_hosts, mode: 644}
+  
+- name: home | create shell conf directory
+  sudo: yes
+  sudo_user: "{{ user }}"
+  file: |
+    state=directory
+    path={{ home }}/.{{ item }}.d
+    mode=755
+  with_items:
+    - profile
+    - bashrc
+  
+- name: home | copy conf.d.sh
+  sudo: yes
+  sudo_user: "{{ user }}"
+  template: |
+    src=conf.d.sh
+    dest={{ home }}/.{{ item }}.d.sh
+    mode=644
+  with_items:
+    - profile
+    - bashrc
+  
+- name: home | edit shell conf
+  sudo: yes
+  sudo_user: "{{ user }}"
+  lineinfile: |
+    state=present
+    dest={{ home }}/.{{ item }}
+    regexp={{ item }}.d.sh
+    line=". $HOME/.{{ item }}.d.sh"
+  with_items:
+    - profile
+    - bashrc

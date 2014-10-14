@@ -1,0 +1,10 @@
+---
+- name: install
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - vlc
+    - xbmc
+  
+- name: copy tv.sh
+  template: src=tv.sh dest=~/tv.sh mode=755

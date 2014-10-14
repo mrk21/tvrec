@@ -1,0 +1,4 @@
+---
+- name: net | set hostname
+  sudo: yes
+  hostname: name={{ inventory_hostname }}

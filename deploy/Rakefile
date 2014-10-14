@@ -1,0 +1,14 @@
+task :default => :deploy
+
+desc 'Deploy'
+task :deploy do
+  tag_option = "-t #{ENV['t']}" if ENV['t']
+  other_options = ENV['o']
+  sh "ansible-playbook -K -k -i config/inventory.ini site.yml #{tag_option} #{other_options}"
+end
+
+desc 'Ansible'
+task :ansible do
+  options = ENV['o']
+  sh "ansible all -i config/inventory.ini #{options}"
+end

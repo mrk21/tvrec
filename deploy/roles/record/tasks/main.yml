@@ -1,0 +1,15 @@
+---
+- include: pt3.yml
+  tags: pt3
+  
+- include: b_cas.yml
+  tags: b_cas
+  
+- include: b25.yml
+  tags: b25
+  
+- include: recpt1.yml
+  tags: recpt1
+  
+- include: epgdump.yml
+  tags: epgdump

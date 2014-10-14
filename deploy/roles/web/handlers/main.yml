@@ -1,0 +1,10 @@
+---
+- name: mysql | restart
+  sudo: yes
+  shell: |
+    service mysql restart
+  
+- name: nginx | restart
+  sudo: yes
+  shell: |
+    service nginx restart

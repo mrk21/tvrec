@@ -1,0 +1,9 @@
+---
+- include: user.yml
+  tags: tvrec_user
+  
+- include: depend.yml
+  tags: tvrec_depend
+  
+- include: deploy.yml
+  tags: deploy

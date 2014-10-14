@@ -1,0 +1,33 @@
+---
+- name: basic_pkg | update and upgrade
+  sudo: yes
+  register: upgrade
+  apt: update_cache=yes upgrade=dist
+  
+- include: reboot.yml
+  when: upgrade.changed
+  
+- name: basic_pkg | install basic tools
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - tree
+    - curl
+    - vim-gnome
+  
+- name: basic_pkg | install version controll systems
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - git
+    - mercurial
+    - subversion
+  
+- name: basic_pkg | install build tools
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - build-essential
+    - autoconf
+    - automake
+    - cmake

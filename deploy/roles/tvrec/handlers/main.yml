@@ -1,0 +1,14 @@
+---
+- name: deploy | reload nginx
+  sudo: yes
+  shell: |
+    service nginx reload
+  
+- name: deploy | enable tvrec
+  sudo: yes
+  service: name={{ init_d_name }} enabled=yes
+  
+- name: deploy | start tvrec
+  sudo: yes
+  shell: |
+    service {{ init_d_name }} start

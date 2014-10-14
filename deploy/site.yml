@@ -1,0 +1,32 @@
+---
+# This playbook confirmed to run only on Ubuntu 14.04 LTS x86_64.
+# * You must execute commands listed below before executing this playbook.
+#   - sudo apt-get install ssh
+# * You must execute commands listed below after executing this playbook.
+#   - sudo pdbedit -a <user>
+#   - sudo x11vnc -storepasswd /etc/x11vnc.passwd
+- hosts: all
+  vars:
+    BUILD_DIR: /home/{{ ansible_ssh_user }}/build
+    
+  roles:
+    - role: base
+      tags: base
+      
+    - role: vnc
+      tags: vnc
+      
+    - role: record
+      tags: record
+      
+    - role: app
+      tags: app
+      
+    - role: web
+      tags: web
+      
+    - role: mediatomb
+      tags: mediatomb
+      
+    - role: tvrec
+      tags: tvrec

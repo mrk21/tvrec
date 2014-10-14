@@ -1,0 +1,42 @@
+---
+- name: ruby | install dependencies
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - libreadline-dev
+    - libssl-dev
+    - zlib1g-dev
+  
+- name: ruby | clone rbenv
+  sudo: yes
+  git: repo={{ ruby_rbenv_url }} dest={{ ruby_rbenv_path }}
+  
+- name: ruby | clone ruby-build
+  sudo: yes
+  git: repo={{ ruby_rbuild_url }} dest={{ ruby_rbuild_path }}
+  
+- name: ruby | copy profile
+  sudo: yes
+  template: |
+    src=ruby_profile.sh
+    dest={{ ruby_profile }}
+  
+- name: ruby | copy gemrc
+  sudo: yes
+  template: src=gemrc dest={{ ruby_gemrc_path }}
+  
+- name: ruby | install ruby
+  sudo: yes
+  register: ruby
+  shell: |
+    creates={{ ruby_rbenv_path }}/versions/{{ ruby_version }}
+    . {{ ruby_profile }}
+    rbenv install {{ ruby_version }}
+  
+- name: ruby | use installed ruby
+  sudo: yes
+  when: ruby.changed
+  shell: |
+    . {{ ruby_profile }}
+    rbenv global {{ ruby_version }}
+    rbenv rehash

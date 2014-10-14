@@ -1,0 +1,32 @@
+---
+- name: pt3 | clone repository
+  register: source
+  git: repo={{ pt3_url }} dest={{ pt3_path }}
+  
+- name: pt3 | build
+  register: build
+  when: source.changed
+  shell: |
+    chdir={{ pt3_build_dir }}
+    make
+  
+- name: pt3 | install
+  sudo: yes
+  when: build.changed
+  shell: |
+    chdir={{ pt3_build_dir }}
+    make install
+  
+- name: pt3 | install DKMS
+  sudo: yes
+  apt: name=dkms state=present
+  
+- name: pt3 | enable DKMS
+  sudo: yes
+  when: build.changed
+  shell: |
+    chdir={{ pt3_build_dir }}
+    ${SHELL} ./dkms.install
+  
+- include: ../../base/tasks/reboot.yml
+  when: build.changed

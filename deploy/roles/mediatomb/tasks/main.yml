@@ -1,0 +1,20 @@
+---
+- name: install
+  sudo: yes
+  register: mediatomb
+  apt: name=mediatomb state=present
+  
+- name: copy config
+  sudo: yes
+  template: src=config.xml dest={{ config }}
+  notify:
+    - mediatomb | restart
+  
+- name: edit init script
+  sudo: yes
+  lineinfile: |
+    dest=/etc/default/mediatomb
+    regexp=^INTERFACE=
+    line='INTERFACE="eth0"'
+  notify:
+    - mediatomb | restart

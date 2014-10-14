@@ -1,0 +1,34 @@
+---
+- name: recpt1 | clone repository
+  ignore_errors: yes
+  register: source
+  changed_when: not source.has_key('failed') and source.changed
+  hg: repo={{ recpt1_url }} dest={{ recpt1_path }}
+  
+- name: recpt1 | edit pt1_dev.h
+  when: source.changed
+  command: |
+    chdir={{ recpt1_build_dir }}
+    vim -u NONE -U NONE --noplugin ./pt1_dev.h -c %s/pt1/pt3/g -c w -c q
+  
+- name: recpt1 | build
+  register: build
+  when: source.changed
+  shell: |
+    chdir={{ recpt1_build_dir }}
+    ./autogen.sh &&
+    ./configure --enable-b25 &&
+    make
+  
+- name: recpt1 | install
+  sudo: yes
+  when: build.changed
+  shell: |
+    chdir={{ recpt1_build_dir }}
+    make install
+  
+- name: recpt1 | revert pt1_dev.h
+  when: source.changed
+  command: |
+    chdir={{ recpt1_build_dir }}
+    vim -u NONE -U NONE --noplugin ./pt1_dev.h -c %s/pt3/pt1/g -c w -c q

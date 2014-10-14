@@ -1,0 +1,4 @@
+---
+- name: mediatomb | restart
+  sudo: yes
+  shell: service mediatomb restart

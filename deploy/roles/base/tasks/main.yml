@@ -1,0 +1,21 @@
+---
+- include: net.yml
+  tags: net
+  
+- include: home.yml
+  tags: home,ssh
+  
+- include: ssh.yml
+  tags: ssh
+  
+- include: basic_pkg.yml
+  tags: basic_pkg
+  
+- include: working.yml
+  tags: working
+  
+- include: fstab.yml
+  tags: fstab
+  
+- include: samba.yml
+  tags: samba

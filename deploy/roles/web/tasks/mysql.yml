@@ -1,0 +1,12 @@
+---
+- name: mysql | install
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - mysql-server
+  
+- name: mysql | copy config
+  sudo: yes
+  template: src=my.cnf dest={{ mysql_conf }}
+  notify:
+    - mysql | restart

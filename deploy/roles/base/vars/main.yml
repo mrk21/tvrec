@@ -1,0 +1,8 @@
+---
+user: "{{ ansible_ssh_user }}"
+home: /home/{{ user }}
+
+fstab_video_fstype: exfat
+fstab_video_mount_options: async,auto,dev,exec,gid=65534,rw,uid=65534
+samba_conf: /etc/samba/smb.conf
+sshd_conf: /etc/ssh/sshd_config

@@ -1,0 +1,26 @@
+---
+- name: b25 | install dependencies
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - libpcsclite-dev
+  
+- name: b25 | download
+  shell: |
+    creates={{ b25_path }}
+    wget {{ b25_url }} -O {{ b25_path }}.zip
+    unzip {{ b25_path }}.zip -d {{ b25_path }}
+  
+- name: b25 | build
+  register: build
+  shell: |
+    creates={{ b25_build_dir }}/src/b25
+    chdir={{ b25_build_dir }}
+    make
+  
+- name: b25 | install
+  sudo: yes
+  when: build.changed
+  shell: |
+    chdir={{ b25_build_dir }}
+    make install

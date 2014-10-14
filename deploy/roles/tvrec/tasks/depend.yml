@@ -1,0 +1,59 @@
+---
+- name: depend | install packages
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - gcc-4.8
+    - g++-4.8
+    - libboost-all-dev
+    - libmysqld-dev
+  
+- name: depend | install cspec dependencies
+  sudo: yes
+  register: cspec_dependencies
+  apt: name={{ item }} state=present
+  with_items:
+    - libtool
+  
+- name: depend | clone cspec repository
+  register: cspec_source
+  git: repo={{ cspec_url }} dest={{ cspec_path }}
+  
+- name: depend | build cspec
+  register: cspec_build
+  when: cspec_source.changed or cspec_dependencies.changed
+  shell: |
+    chdir={{ cspec_path }}
+    ./autogen.sh &&
+    ./configure &&
+    make
+  
+- name: depend | install cspec
+  sudo: yes
+  when: cspec_source.changed or cspec_build.changed
+  shell: |
+    chdir={{ cspec_path }}
+    make install &&
+    cp -rf inc {{ cspec_inc_install_path }}
+  
+- name: depend | install bower
+  sudo: yes
+  npm: |
+    name=bower
+    version={{ bower_version }}
+    global=yes
+    state=present
+  
+- name: depend | install bundler
+  sudo: yes
+  register: bundler
+  gem: |
+    name=bundler
+    version={{ bundler_version }}
+    user_install=no
+    state=present
+  
+- name: depend | rbenv rehash
+  sudo: yes
+  when: bundler.changed
+  shell: rbenv rehash

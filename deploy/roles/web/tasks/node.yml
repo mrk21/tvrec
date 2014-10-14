@@ -1,0 +1,21 @@
+---
+- name: node | copy profile
+  sudo: yes
+  template: |
+    src=node_profile.sh
+    dest={{ node_profile }}
+  
+- name: node | install nodebrew
+  sudo: yes
+  shell: |
+    creates={{ node_nbrew_dir }}
+    . {{ node_profile }}
+    curl -L git.io/nodebrew | perl - setup
+  
+- name: node | install node
+  sudo: yes
+  shell: |
+    creates={{ node_dir }}
+    . {{ node_profile }}
+    nodebrew install {{ node_version }}
+    nodebrew use {{ node_version }}

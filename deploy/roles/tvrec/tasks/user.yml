@@ -1,0 +1,10 @@
+---
+- name: user | add
+  sudo: yes
+  user: |
+    name={{ user }}
+    createhome=yes
+    group={{ group }}
+    state=present
+  
+- include: ../../base/tasks/home.yml

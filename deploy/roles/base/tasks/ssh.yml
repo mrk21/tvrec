@@ -1,0 +1,7 @@
+---
+- name: ssh | notify handlers
+  changed_when: True
+  debug: msg=Notify
+  notify:
+    - ssh | edit sshd config
+    - ssh | restart

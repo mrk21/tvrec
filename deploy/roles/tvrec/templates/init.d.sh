@@ -1,10 +1,10 @@
 #!/bin/sh
 
-EXEC_USER="tvrec"
+EXEC_USER="{{ user }}"
 NAME="Unicorn"
 ENV=production
 
-ROOT_DIR="/home/tvrec/tvrec"
+ROOT_DIR="{{ repo_path }}"
 
 PID="${ROOT_DIR}/tmp/pids/unicorn.pid"
 CONF="${ROOT_DIR}/config/unicorn.rb"
@@ -15,7 +15,7 @@ start()
 {
   if [ -e $PID ]; then
     echo "$NAME already started"
-    exit 1
+    return
   fi
   echo "start $NAME"
   su - ${EXEC_USER} -c "cd ${ROOT_DIR} && ${CMD}"
@@ -25,20 +25,22 @@ stop()
 {
   if [ ! -e $PID ]; then
     echo "$NAME not started"
-    exit 1
+    return
   fi
   echo "stop $NAME"
   su - ${EXEC_USER} -c "kill -QUIT $(cat ${PID})"
+  rm -rf ${PID}
 }
 
 force_stop()
 {
   if [ ! -e $PID ]; then
     echo "$NAME not started"
-    exit 1
+    return
   fi
   echo "stop $NAME"
   su - ${EXEC_USER} -c "kill -INT $(cat ${PID})"
+  rm -rf ${PID}
 }
 
 reload()
@@ -46,7 +48,7 @@ reload()
   if [ ! -e $PID ]; then
     echo "$NAME not started"
     start
-    exit 0
+    return
   fi
   echo "reload $NAME"
   su - ${EXEC_USER} -c "kill -HUP $(cat ${PID})"
@@ -55,7 +57,6 @@ reload()
 restart()
 {
     stop
-    # Unicorn が停止し切らない内に起動しようとしないように
     sleep 3
     start
 }
@@ -80,4 +81,3 @@ case "$1" in
     echo "Syntax Error: release [start|stop|force-stop|reload|restart]"
     ;;
 esac
-

@@ -1,0 +1,124 @@
+---
+- name: deploy | check service
+  register: service
+  changed_when: False
+  shell: |
+    ps aux | grep -E "unicorn_rails .*tvrec" | sed '$d' | sed '$d'
+  
+- name: deploy | stop service
+  sudo: yes
+  when: service.stdout.strip() != ''
+  shell: |
+    service {{ init_d_name }} stop
+  
+- name: deploy | clone repository
+  sudo: yes
+  sudo_user: "{{ user }}"
+  register: source
+  git: repo={{ repo_url }} dest={{ repo_path }}
+  notify:
+    - deploy | start tvrec
+  
+- name: deploy | copy profile
+  sudo: yes
+  sudo_user: "{{ user }}"
+  template: |
+    src=profile.sh
+    dest={{ home }}/.profile.d/tvrec.sh
+    mode=644
+  
+- name: deploy | copy init.d script
+  sudo: yes
+  template: |
+    src=init.d.sh
+    dest={{ init_d_dir }}/{{ init_d_name }}
+    mode=755
+  notify:
+    - deploy | enable tvrec
+    - deploy | start tvrec
+  
+- name: deploy | copy nginx conf
+  sudo: yes
+  template: |
+    src=nginx.conf
+    dest={{ nginx_conf }}
+    mode=644
+  notify:
+    - deploy | reload nginx
+  
+- name: deploy | copy config/auth directory
+  sudo: yes
+  sudo_user: "{{ user }}"
+  copy: |
+    src=config/auth/
+    dest={{ home }}/auth
+    mode=640
+  
+- name: deploy | create nginx_log
+  sudo: yes
+  sudo_user: "{{ user }}"
+  file: |
+    state=directory
+    path={{ home }}/nginx_log
+    mode=775
+  
+- name: deploy | bower install
+  sudo: yes
+  sudo_user: "{{ user }}"
+  when: source.changed
+  shell: |
+    chdir={{ repo_path }}
+    bower install
+  
+- name: deploy | bundle install
+  sudo: yes
+  sudo_user: "{{ user }}"
+  when: source.changed
+  shell: |
+    chdir={{ repo_path }}
+    bundle install --path vendor/bundle
+  
+- name: deploy | check db
+  sudo: yes
+  sudo_user: "{{ user }}"
+  register: db
+  changed_when: False
+  shell: |
+    chdir={{ repo_path }}
+    if bundle exec rake db:version > /dev/null; then
+      printf "found"
+    else
+      printf "not found"
+    fi
+  
+- name: deploy | init
+  sudo: yes
+  sudo_user: "{{ user }}"
+  when: source.changed and db.stdout == "not found"
+  shell: |
+    chdir={{ repo_path }}
+    bundle exec rake tvrec:init
+  
+- name: deploy | assets precompile
+  sudo: yes
+  sudo_user: "{{ user }}"
+  when: source.changed
+  shell: |
+    chdir={{ repo_path }}
+    bundle exec rake assets:precompile
+  
+- name: deploy | set cron
+  sudo: yes
+  sudo_user: "{{ user }}"
+  when: source.changed
+  shell: |
+    chdir={{ repo_path }}
+    bundle exec whenever -w
+  
+- name: deploy | build tssplitter
+  sudo: yes
+  sudo_user: "{{ user }}"
+  when: source.changed
+  shell: |
+    chdir={{ repo_path }}/tool/tssplitter
+    make install

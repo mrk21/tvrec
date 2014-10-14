@@ -1,6 +1,6 @@
 # Tvrec deployment documentation
 
-## Get Ubuntu 14.04 LTS installation media
+## Make Ubuntu 14.04 LTS installation media
 
 You enter the command listed below on the local:
 
@@ -9,7 +9,9 @@ You enter the command listed below on the local:
 
 ## Install and Settings
 
-### Install OS
+### Install Ubuntu 14.04 LTS
+
+You connect the installation media before power on, and boot Ubuntu 14.04 LTS installation program. You execute the steps listed below when it was booted.
 
 #### インストール: ようこそ
 
@@ -33,7 +35,7 @@ You enter the command listed below on the local:
     (+) xxx を削除して再インストール
       [ ] Encript the new Ubuntu installation for security
       [ ] User LVM with the new Ubuntu installation
-    ( ) それそれ以外
+    ( ) それ以外
     
     ( ) 終了(Q)
     ( ) 戻る(B)
@@ -84,14 +86,13 @@ You enter the command listed below on the local:
 
 #### Reboot
 
-    Please remove installation media and close the tray (if any) then press ENTER: # You press an enter key after ejecting the installation media.
+You press an enter key after ejecting the installation media:
 
+    Please remove installation media and close the tray (if any) then press ENTER: 
 
 ### Network settings
 
-システム設定 -> ネットワーク -> 有線 -> オプション
-
-IPv4設定:
+システム設定 -> ネットワーク -> 有線 -> オプション -> IPv4設定
 
     方式(M): 手動
     
@@ -126,16 +127,14 @@ IPv4設定:
 
 ### Input Settings
 
-システム設定 -> テキスト入力 -> 日本語(Anthy) -> 設定
-
-一般:
+システム設定 -> テキスト入力 -> 日本語(Anthy) -> 設定 -> 一般
 
     初期値の設定
       入力モード(I): 英数
       入力タイプ(T): ローマ字
       変換モード(M): 連文節
 
-## Install SSH server
+### Install SSH server
 
 You enter the command listed below on the remote server:
 
@@ -161,20 +160,20 @@ You must set files listed below on the config directory:
         ├── id_rsa
         └── known_hosts
 
-The following tools can generate the above "auth" files:
+The following tools can generate the above `auth` files:
 
 * tools/basic\_auth.sh
 * tools/create\_cart.sh
 
 ##### basic\_auth.sh
 
-This script generates "auth/basic_auth".
+This script generates `auth/basic_auth`.
 
     $ ./tools/basic_auth.sh <username>
 
 ##### create\_cart.sh
 
-This script generates "auth/ssl.xxx".
+This script generates `auth/ssl.xxx`.
 
     $ ./tools/create_cart.sh
 
@@ -210,12 +209,12 @@ You enter the command listed below on the remote server:
 
 ### Mediatomb Settings
 
-1. Access "http://<hostname>:49152/" by browser
-2. Click to "filesystem"
-3. Select the directory of "Filesystem/media/video1"
-4. Click the button of "add as autoscan dir" for the selected directory
+1. Access `http://<hostname>:49152` by browser
+2. Click to `Filesystem`
+3. Select the directory of `Filesystem/media/video1`
+4. Click the button of `add as autoscan dir` for the selected directory
 5. Set the items as shown below:
-    
+
         Scan Mode:
           [ ] None
           [ ] Timed
@@ -225,5 +224,5 @@ You enter the command listed below on the remote server:
           [x] Full
         Recursive: [x]
         Include hidden files/directories: [ ]
-    
-6. Repeat steps of 3 to 5 regarding the directory of "Filesystem/media/video2"
+
+6. Repeat steps of `3` to `5` regarding the directory of `Filesystem/media/video2`

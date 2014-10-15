@@ -33,8 +33,8 @@ You connect the installation media before power on, and boot Ubuntu 14.04 LTS in
 
     ( ) xxx を Ubuntu 14.04 LTS と併用可能な形でインストール
     (+) xxx を削除して再インストール
-      [ ] Encript the new Ubuntu installation for security
-      [ ] User LVM with the new Ubuntu installation
+        [ ] Encript the new Ubuntu installation for security
+        [ ] User LVM with the new Ubuntu installation
     ( ) それ以外
     
     ( ) 終了(Q)
@@ -100,9 +100,9 @@ You press an enter key after ejecting the installation media:
     ( ) 削除
     
     アドレス:
-      アドレス: 192.168.1.x
-      ネットマスク: 255.255.255.0
-      ゲートウェイ: 192.168.1.x
+        アドレス: 192.168.1.x
+        ネットマスク: 255.255.255.0
+        ゲートウェイ: 192.168.1.x
     DNSサーバ(V): 192.168.1.x
     ドメインを検索(E): 
     DHCPクライアントID(H): 
@@ -121,7 +121,7 @@ You press an enter key after ejecting the installation media:
     次の時間アイドル状態が続けば画面をオフにする(T): しない
     
     ロックする: オフ
-      画面ロックまでの時間(L): 
+        画面ロックまでの時間(L): 
     
     [ ] サスペンドからの復帰時にパスワードを要求する
 
@@ -130,9 +130,9 @@ You press an enter key after ejecting the installation media:
 システム設定 -> テキスト入力 -> 日本語(Anthy) -> 設定 -> 一般
 
     初期値の設定
-      入力モード(I): 英数
-      入力タイプ(T): ローマ字
-      変換モード(M): 連文節
+        入力モード(I): 英数
+        入力タイプ(T): ローマ字
+        変換モード(M): 連文節
 
 ### Install SSH server
 
@@ -216,12 +216,12 @@ You enter the command listed below on the remote server:
 5. Set the items as shown below:
 
         Scan Mode:
-          [ ] None
-          [ ] Timed
-          [x] Inotify
+            [ ] None
+            [ ] Timed
+            [x] Inotify
         Initial Scan:
-          [ ] Basic
-          [x] Full
+            [ ] Basic
+            [x] Full
         Recursive: [x]
         Include hidden files/directories: [ ]
 

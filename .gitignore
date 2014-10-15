@@ -12,18 +12,16 @@
 /db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
+Gemfile.lock
+.DS_Store
+._*
 *.log
 /tmp
 
-# Ignore others.
-._*
-Gemfile.lock
+# Ignore vendor files.
 /vendor/bundle
 /vendor/assets/bower
-.DS_Store
 /public/assets
 
 # Ignore generated files
 /bin/tssplitter
-/config/deployments/basic_auth
-/config/deployments/ssl.*

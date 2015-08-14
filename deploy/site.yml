@@ -6,6 +6,9 @@
 #   - sudo pdbedit -a <user>
 #   - sudo x11vnc -storepasswd /etc/x11vnc.passwd
 - hosts: all
+  vars_files:
+    - config/secrets.yml
+    
   vars:
     BUILD_DIR: /home/{{ ansible_ssh_user }}/build
     

@@ -10,17 +10,15 @@
   sudo: yes
   mount: |
     state=mounted
-    name={{ item.name }}
+    name=/media/{{ item.name }}
     src={{ item.src }}
     fstype={{ fstab_video_fstype }}
     opts={{ fstab_video_mount_options }}
-  with_items:
-    - {name: /media/video1, src: /dev/sdc1}
-    - {name: /media/video2, src: /dev/sdb1}
+  with_items: storages
   
 - name: fstab | link current video
   sudo: yes
   file: |
     state=link
-    src=/media/video2
+    src=/media/{{ current_storage }}
     dest=/media/video

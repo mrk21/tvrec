@@ -1,1 +1,4 @@
-config/
+config/ssh/
+config/auth/
+config/inventory.ini
+config/secrets.yml

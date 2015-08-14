@@ -154,6 +154,7 @@ You must set files listed below on the config directory:
     │   ├── ssl.key
     │   └── ssl.key.org
     ├── inventory.ini
+    ├── secrets.yml
     └── ssh
         ├── authorized_keys
         ├── config
